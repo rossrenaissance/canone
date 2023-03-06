@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Live Pixel Screen</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="pixel-screen"></canvas>
+    <script>
+      // Get the canvas element
+const canvas = document.getElementById("pixel-screen");
+
+// Get the 2D context for the canvas
+const ctx = canvas.getContext("2d");
+
+// Set the pixel size and spacing
+const pixelSize = 10;
+const pixelSpacing = 1;
+
+// Define the colors available for users to select
+const colors = ["#ffffff", "#000000", "#ff0000", "#00ff00", "#0000ff"];
+
+// Loop through the rows and columns of pixels and draw them on the canvas
+for (let row = 0; row < canvas.height / (pixelSize + pixelSpacing); row++) {
+  for (let col = 0; col < canvas.width / (pixelSize + pixelSpacing); col++) {
+    const x = col * (pixelSize + pixelSpacing);
+    const y = row * (pixelSize + pixelSpacing);
+
+    // Set the default color of the pixel to white
+    ctx.fillStyle = "#ffffff";
+
+    // Draw the pixel on the canvas
+    ctx.fillRect(x, y, pixelSize, pixelSize);
+  }
+}
+
+// Add an event listener for when the canvas is clicked
+canvas.addEventListener("click", (event) => {
+  // Calculate the row and column of the clicked pixel
+  const rect = canvas.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+  const col = Math.floor(x / (pixelSize + pixelSpacing));
+  const row = Math.floor(y / (pixelSize + pixelSpacing));
+
+  // Update the color of the clicked pixel
+  ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+  ctx.fillRect(col * (pixelSize + pixelSpacing), row * (pixelSize + pixelSpacing), pixelSize, pixelSize);
+});
+
+    </script>
+  </body>
+</html>
